@@ -5,30 +5,25 @@
 #include <cstdint>
 #include <format>
 #include <span>
+#include <sstream>
 
 namespace ly::communicating {
-    using byte_type = std::uint8_t;
-    using size_type = std::size_t;
-    using byte_span = std::span<byte_type>;
-    using const_byte_span = std::span<const byte_type>;
+	using byte_type = std::uint8_t;
+	using size_type = std::size_t;
+	using byte_span = std::span<byte_type>;
+	using const_byte_span = std::span<const byte_type>;
 
-    template<size_type size>
-    using byte_array = std::array<byte_type, size>;
+	template<size_type size>
+	using byte_array = std::array<byte_type, size>;
 
-    struct const_byte_span_formatter : public std::formatter<byte_type> {
-        auto format(const const_byte_span& span, std::format_context& ctx) const {
-            if (span.empty()) return ctx.out();
-            const auto count = span.size();
-            if (count == 1) return std::formatter<byte_type>::format(span.front(), ctx);
+	inline void byte_span_format(std::ostream& stream, std::string_view format, const_byte_span span) {
+		for (const auto byte : span)
+			stream << std::vformat(format, std::make_format_args(byte));
+	}
 
-            for (const auto& element : span.subspan(0, count - 1)) {
-                const auto it = std::formatter<byte_type>::format(element, ctx);
-                std::format_to(it, " ");
-            }
-            return std::formatter<byte_type>::format(span.back(), ctx);
-        }
-    };
+	inline std::string byte_span_format(std::string_view format, const_byte_span span) {
+		std::stringstream stream;
+		byte_span_format(stream, format, span);
+		return stream.str();
+	}
 }
-
-template<>
-struct std::formatter<ly::communication::const_byte_span> : ly::communication::const_byte_span {};
