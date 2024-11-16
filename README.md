@@ -16,5 +16,4 @@ title: writer flow
 flowchart LR
 	source -->|item| unpacker
 	unpacker -->|bytes| writer
-
 ```

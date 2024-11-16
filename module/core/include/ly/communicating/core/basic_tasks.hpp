@@ -1,6 +1,9 @@
 #pragma once
 
 #include <concepts>
+#include <memory>
+#include <atomic>
+#include <optional>
 
 #include "basic_bytes.hpp"
 
@@ -44,11 +47,10 @@ namespace ly::communicating {
         reader_failure = -1,
         packer_failure = -2,
         sink_failure = -3,
-        writer_failure = -1,
-        unpacker_failure = -2,
-        source_failure = -3
+        writer_failure = -4,
+        unpacker_failure = -5,
+        source_failure = -6
     };
-
 
     template<
         typename reader_type,
