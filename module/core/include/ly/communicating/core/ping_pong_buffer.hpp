@@ -1,6 +1,8 @@
 #pragma once
 
 #include <stdexcept>
+#include <ranges>
+#include <algorithm>
 
 #include "basic_bytes.hpp"
 
