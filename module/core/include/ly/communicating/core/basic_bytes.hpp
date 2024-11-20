@@ -7,7 +7,11 @@
 #include <span>
 
 namespace ly::communicating {
+    static_assert(sizeof(std::uint8_t) == sizeof(char), "sizeof(std::uint8_t) != sizeof(char)");
+
+    /// @brief 字节的概念，认为内存的最小单位是 8 二进制位字节
     using byte_type = std::uint8_t;
+
     using size_type = std::size_t;
     using byte_span = std::span<byte_type>;
     using const_byte_span = std::span<const byte_type>;
@@ -31,4 +35,4 @@ namespace ly::communicating {
 }
 
 template<>
-struct std::formatter<ly::communication::const_byte_span> : ly::communication::const_byte_span {};
+struct std::formatter<ly::communicating::const_byte_span> : ly::communicating::const_byte_span {};
